@@ -1,0 +1,55 @@
+<style>
+.recipesearch {margin: 10px 0px 15px 0px;}
+.recipelist {height: 130px;}
+.recipedetails {float:left; width:600px; margin-left:20px;}
+.recipethumb {float:left; width:150px; height:100px;}
+</style>
+
+<h2>Recipes</h2>
+<div class="recipesearch">
+	Search by: 
+	<select id="recipe-search-dish">
+		<?php $types = Mage::getModel('recipe/type')->getCollection() ?>
+		<option value="">Dish Type</option>
+		<?php foreach($types as $type): ?>
+			<option value="<?php echo $type->getId() ?>"><?php echo $type->getDishtype() ?></option>
+		<?php endforeach ?>
+	</select>
+	<select id="recipe-search-diff">
+		<option value="">Difficulty</option>
+		<option value="1">Easy</option>
+		<option value="2">Moderate</option>
+		<option value="3">Hard</option>
+	</select>
+<!--
+	<select>
+		<option value="">Prep Time</option>
+		<option value="1">Less than 30 mins</option>
+		<option value="2">30 to 60 mins</option>
+		<option value="3">More than 60 mins</option>
+	</select>
+-->
+	<button onclick="searchMe();">Search</button>
+</div>
+<?php $recipes = $this->getRecipes() ?>
+<?php foreach($recipes as $recipe): ?>
+	<div class="recipelist">
+		<div class="recipethumb"><img src="<?php echo Mage::getBaseUrl('media') ?>recipe/tn/<?php echo $recipe->getLrgPath() ?>" /></div>
+		<div class="recipedetails" style="float:left;">
+			<h5><a href="<?php echo $recipe->getUrl() ?>"><?php echo $recipe->getTitle() ?></a></h5>
+			<p><?php echo $recipe->getDesc() ?></p>
+		</div>
+	</div>
+<?php endforeach ?>
+<script>
+function searchMe() {
+	var url = '<?php echo Mage::getBaseUrl('web') . "recipe/index/list/" ?>';
+	if($('recipe-search-dish').getValue()) {
+		url = url + "dish/" + $('recipe-search-dish').getValue() + "/";
+	}
+	if($('recipe-search-diff').getValue()) {
+		url = url + "diff/" + $('recipe-search-diff').getValue() + "/";
+	}
+	window.location = url;
+}
+</script>

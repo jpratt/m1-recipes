@@ -1,0 +1,55 @@
+<div style="float:right;"><input type="button" id="addNewIngredient" onclick="addElement();" value="Add Ingredient" /></div>
+
+<div id="ingredient_fields">
+<?php $fields = $this->getIngredients() ?>
+<?php $x = 0 ?>
+<?php foreach($fields as $key => $field): ?>
+	<label>Measure</label> <input name="ingredients[measure][]" type="text" size="10" value="<?php echo $field->getMeasure() ?>" />
+	<label>Ingredient</label> <input name="ingredients[ingredient][]" type="text" size="40" value="<?php echo $field->getIngredient() ?>" />
+	<label>Product Sku</label> <input name="ingredients[sku][]" type="text" size="10" value="<?php echo $field->getSku() ?>" />
+	<label>Show recipe on product page?</label> <input id="box<?php echo $field->getIngredientId() ?>" onClick="isShow(<?php echo $field->getIngredientId()?>)" type='checkbox' <?php if($field->getProductShow()): ?>checked="true"<?php endif ?> />
+	<label>Product Qty</label> <input name="ingredients[qty][]" type="text" size="7" value="<?php echo $field->getQty() ?>" />
+	<label>Delete</label> <input name="ingredients[remove][<?php echo $field->getIngredientId() ?>]" type="checkbox" />
+	<input type="hidden" name="ingredients[ingredient_id][]" value="<?php echo $field->getIngredientId() ?>" />
+	<input type="hidden" name="ingredients[product_show][]" id="value<?php echo $field->getIngredientId() ?>" value="<?php echo $field->getProductShow() ?>" />
+	<br />
+<?php endforeach ?>
+</div>
+<script type="text/javascript">
+function addElement() {
+	  var ni = document.getElementById('ingredient_fields');
+	  var eid = randomString();
+	  var newdiv = document.createElement('div');
+	  var divIdName = 'newDiv';
+	  newdiv.setAttribute('id',divIdName);
+	  newdiv.innerHTML = "<label>Measure</label> <input name='ingredients[measure][]' type='text' size='10' /> "
+	  + "<label>Ingredient</label> <input name='ingredients[ingredient][]' type='text' size='40' /> "
+	  + "<label>Product Sku</label> <input name='ingredients[sku][]' type='text' size='10' /> "
+	  + "<label>Show recipe on product page?</label> <input id='box" + eid + "' onClick='isShow(" + eid + ")' type='checkbox' /> "
+	  + "<label>Product Qty</label> <input name='ingredients[qty][]' type='text' size='7' />"
+	  + "<input type='hidden' name='ingredients[ingredient_id][]' value='' /><br />"
+	  + "<input type='hidden' name='ingredients[product_show][]' id='value" + eid + "' value='0' />";
+	  ni.appendChild(newdiv);
+}
+
+function isShow(id)
+{
+	if($('box'+id).checked) {
+		$('value'+id).value = 1;
+	} else {
+		$('value'+id).value = 0;
+	}
+}
+
+function randomString() {
+	var chars = "0123456789";
+	var string_length = 8;
+	var randomstring = '';
+	for (var i=0; i<string_length; i++) {
+		var rnum = Math.floor(Math.random() * chars.length);
+		randomstring += chars.substring(rnum,rnum+1);
+	}
+	return randomstring;
+}
+</script> 
+

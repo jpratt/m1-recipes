@@ -1,0 +1,22 @@
+<?php if(Mage::getStoreConfig('sales/recipe/product_recipe')): ?>
+	<?php $recipes = $this->getProductRecipes() ?>
+	<?php if(count($recipes)): ?>
+		<div class="box best-selling">
+			<h3><?php echo $this->__('Recipes that use this product') ?></h3>
+			<table cellspacing="0" border="0" style="width:100%;">
+				<tbody>
+					<tr class="odd">
+						<?php foreach($recipes as $recipe): ?>
+						<td>
+							<a href="<?php echo Mage::getBaseUrl('web') ?>recipe/index/index/id/<?php echo $recipe->getId() ?>"><img style="float:none;" border="0" alt="" src="<?php echo Mage::getBaseUrl('media') ?>recipe/tn/<?php echo $recipe->getLrgPath() ?>" class="product-img"></a><br />
+							<div class="product-description" style="margin-left:0px;">
+								<p><a href="<?php echo Mage::getBaseUrl('web') ?>recipe/index/index/id/<?php echo $recipe->getId() ?>"><?php echo $recipe->getTitle() ?></a></p>
+							</div>
+						</td>
+						<?php endforeach ?>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	<?php endif ?>
+<?php endif ?>
